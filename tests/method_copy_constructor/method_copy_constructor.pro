@@ -6,4 +6,11 @@ CONFIG -= app_bundle
 
 TEMPLATE = app
 
-SOURCES +=  tst_method_copy_constructor.cpp
+SOURCES += tst_method_copy_constructor.cpp
+
+
+SOURCES += ../../set/Iterator.cpp \
+        ../../set/set.cpp
+
+HEADERS += ../../set/Iterator.h \
+        ../../set/set.h

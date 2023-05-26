@@ -1,6 +1,9 @@
 #include <QtTest>
 
-// add necessary includes here
+#include "../../set/Iterator.h"
+#include "../../set/set.h"
+#include "../../set/Iterator.cpp"
+#include "../../set/set.cpp"
 
 class method_default_constructor : public QObject
 {
@@ -11,9 +14,16 @@ public:
     ~method_default_constructor();
 
 private slots:
-    void test_case1();
+    void test_default();
 
 };
+
+void method_default_constructor::test_default()
+{
+    set<int> my_set;
+
+    QCOMPARE(my_set.get_length(), 0);
+}
 
 method_default_constructor::method_default_constructor()
 {
@@ -21,11 +31,6 @@ method_default_constructor::method_default_constructor()
 }
 
 method_default_constructor::~method_default_constructor()
-{
-
-}
-
-void method_default_constructor::test_case1()
 {
 
 }

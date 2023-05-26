@@ -5,7 +5,9 @@ project(ContainerClass LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(ContainerClass main.cpp)
+add_executable(ContainerClass main.cpp node.h
+               Iterator.h Iterator.cpp
+               set.h set.cpp)
 
 install(TARGETS ContainerClass
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

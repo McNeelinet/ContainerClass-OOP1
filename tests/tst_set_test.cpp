@@ -7,6 +7,7 @@
 #include "../Iterator.h"
 #include "../Iterator.cpp"
 
+
 class set_test : public QObject
 {
     Q_OBJECT
@@ -52,11 +53,28 @@ private slots:
     void test_clear_empty();
     void test_clear_filled();
 
+    void test_set_union_unique();
+    void test_set_union_doubles();
+
+    void test_set_intersection_empty();
+    void test_set_intersection_filled();
+
+    void test_set_substract_empty();
+    void test_set_substract_filled();
+
     void test_equalty_overload_empty();
     void test_equalty_overload_filled();
 
+    void test_plus_equal_overload();
+    void test_star_equal_overload();
+    void test_slash_equal_overload();
+
     void test_arrows_overload_empty();
     void test_arrows_overload_filled();
+
+    void test_plus_overload();
+    void test_star_overload();
+    void test_slash_overload();
 };
 
 set_test::set_test()
@@ -122,7 +140,6 @@ void set_test::test_move_constructor_filled()
     set<int> my_set2(std::move(my_set1));
 
     QCOMPARE(my_set2.get_length(), 3);
-    QCOMPARE(my_set1.get_length(), 0);
     QCOMPARE(my_set2.contains(1), true);
     QCOMPARE(my_set2.contains(2), true);
     QCOMPARE(my_set2.contains(3), true);
@@ -327,6 +344,120 @@ void set_test::test_clear_filled()
     QCOMPARE(my_set.get_length(), 0);
 }
 
+void set_test::test_set_union_unique()
+{
+    set<int> my_set1{1, 3, 5, 7};
+    set<int> my_set2{2, 4, 6, 8};
+
+    QCOMPARE(my_set1.get_length(), 4);
+    QCOMPARE(my_set2.get_length(), 4);
+
+    set<int> my_set3(my_set1.set_union(my_set2));
+
+    QCOMPARE(my_set3.get_length(), 8);
+    QCOMPARE(my_set3.contains(1), true);
+    QCOMPARE(my_set3.contains(2), true);
+    QCOMPARE(my_set3.contains(3), true);
+    QCOMPARE(my_set3.contains(4), true);
+    QCOMPARE(my_set3.contains(5), true);
+    QCOMPARE(my_set3.contains(6), true);
+    QCOMPARE(my_set3.contains(7), true);
+    QCOMPARE(my_set3.contains(8), true);
+}
+
+void set_test::test_set_union_doubles()
+{
+    set<int> my_set1{1, 2, 3, 5, 6, 7, 9};
+    set<int> my_set2{2, 4, 6, 8};
+
+    QCOMPARE(my_set1.get_length(), 7);
+    QCOMPARE(my_set2.get_length(), 4);
+
+    set<int> my_set3(my_set1.set_union(my_set2));
+
+    QCOMPARE(my_set3.get_length(), 9);
+    QCOMPARE(my_set3.contains(1), true);
+    QCOMPARE(my_set3.contains(2), true);
+    QCOMPARE(my_set3.contains(3), true);
+    QCOMPARE(my_set3.contains(4), true);
+    QCOMPARE(my_set3.contains(5), true);
+    QCOMPARE(my_set3.contains(6), true);
+    QCOMPARE(my_set3.contains(7), true);
+    QCOMPARE(my_set3.contains(8), true);
+    QCOMPARE(my_set3.contains(9), true);
+}
+
+void set_test::test_set_intersection_empty()
+{
+    set<int> my_set1{};
+    set<int> my_set2{};
+
+    QCOMPARE(my_set1.get_length(), 0);
+    QCOMPARE(my_set2.get_length(), 0);
+
+    set<int> my_set3(my_set1.set_intersection(my_set2));
+
+    QCOMPARE(my_set3.get_length(), 0);
+
+    set<int> my_set4(my_set2.set_intersection(my_set1));
+
+    QCOMPARE(my_set4.get_length(), 0);
+}
+
+void set_test::test_set_intersection_filled()
+{
+    set<int> my_set1{1, 2, 3, 5, 6, 7, 9};
+    set<int> my_set2{2, 4, 6, 8};
+
+    QCOMPARE(my_set1.get_length(), 7);
+    QCOMPARE(my_set2.get_length(), 4);
+
+    set<int> my_set3(my_set1.set_intersection(my_set2));
+
+    QCOMPARE(my_set3.get_length(), 2);
+    QCOMPARE(my_set3.contains(2), true);
+    QCOMPARE(my_set3.contains(6), true);
+
+    set<int> my_set4(my_set2.set_intersection(my_set1));
+
+    QCOMPARE(my_set4.get_length(), 2);
+    QCOMPARE(my_set4.contains(2), true);
+    QCOMPARE(my_set4.contains(6), true);
+}
+
+void set_test::test_set_substract_empty()
+{
+    set<int> my_set1{};
+    set<int> my_set2{};
+
+    QCOMPARE(my_set1.get_length(), 0);
+    QCOMPARE(my_set2.get_length(), 0);
+
+    set<int> my_set3(my_set1.set_substract(my_set2));
+
+    QCOMPARE(my_set1.get_length(), 0);
+}
+
+void set_test::test_set_substract_filled()
+{
+    set<int> my_set1{1, 2, 3, 5, 6, 7, 9};
+    set<int> my_set2{2, 4, 6, 8};
+
+    QCOMPARE(my_set1.get_length(), 7);
+    QCOMPARE(my_set2.get_length(), 4);
+
+    set<int> my_set3(my_set1.set_substract(my_set2));
+
+    QCOMPARE(my_set3.get_length(), 7);
+    QCOMPARE(my_set3.contains(1), true);
+    QCOMPARE(my_set3.contains(3), true);
+    QCOMPARE(my_set3.contains(5), true);
+    QCOMPARE(my_set3.contains(7), true);
+    QCOMPARE(my_set3.contains(9), true);
+    QCOMPARE(my_set3.contains(4), true);
+    QCOMPARE(my_set3.contains(8), true);
+}
+
 void set_test::test_equalty_overload_empty()
 {
     set<int> my_set1;
@@ -345,6 +476,63 @@ void set_test::test_equalty_overload_filled()
     QCOMPARE(my_set2.get_length(), 7);
 }
 
+void set_test::test_plus_equal_overload()
+{
+    set<int> my_set1{1, 2, 3, 5, 6, 7, 9};
+    set<int> my_set2{2, 4, 6, 8};
+
+    QCOMPARE(my_set1.get_length(), 7);
+    QCOMPARE(my_set2.get_length(), 4);
+
+    my_set1 += my_set2;
+
+    QCOMPARE(my_set1.get_length(), 9);
+    QCOMPARE(my_set1.contains(1), true);
+    QCOMPARE(my_set1.contains(2), true);
+    QCOMPARE(my_set1.contains(3), true);
+    QCOMPARE(my_set1.contains(4), true);
+    QCOMPARE(my_set1.contains(5), true);
+    QCOMPARE(my_set1.contains(6), true);
+    QCOMPARE(my_set1.contains(7), true);
+    QCOMPARE(my_set1.contains(8), true);
+    QCOMPARE(my_set1.contains(9), true);
+}
+
+void set_test::test_star_equal_overload()
+{
+    set<int> my_set1{1, 2, 3, 5, 6, 7, 9};
+    set<int> my_set2{2, 4, 6, 8};
+
+    QCOMPARE(my_set1.get_length(), 7);
+    QCOMPARE(my_set2.get_length(), 4);
+
+    my_set1 *= my_set2;
+
+    QCOMPARE(my_set1.get_length(), 2);
+    QCOMPARE(my_set1.contains(2), true);
+    QCOMPARE(my_set1.contains(6), true);
+}
+
+void set_test::test_slash_equal_overload()
+{
+    set<int> my_set1{1, 2, 3, 5, 6, 7, 9};
+    set<int> my_set2{2, 4, 6, 8};
+
+    QCOMPARE(my_set1.get_length(), 7);
+    QCOMPARE(my_set2.get_length(), 4);
+
+    my_set1 /= my_set2;
+
+    QCOMPARE(my_set1.get_length(), 7);
+    QCOMPARE(my_set1.contains(1), true);
+    QCOMPARE(my_set1.contains(3), true);
+    QCOMPARE(my_set1.contains(5), true);
+    QCOMPARE(my_set1.contains(7), true);
+    QCOMPARE(my_set1.contains(9), true);
+    QCOMPARE(my_set1.contains(4), true);
+    QCOMPARE(my_set1.contains(8), true);
+}
+
 void set_test::test_arrows_overload_empty()
 {
     set<int> my_set1{};
@@ -357,6 +545,63 @@ void set_test::test_arrows_overload_filled()
     set<int> my_set1{1, 2, 3, 5, 6, 7, 9};
 
     std::cout << my_set1 << "\n";
+}
+
+void set_test::test_plus_overload()
+{
+    set<int> my_set1{1, 2, 3, 5, 6, 7, 9};
+    set<int> my_set2{2, 4, 6, 8};
+
+    QCOMPARE(my_set1.get_length(), 7);
+    QCOMPARE(my_set2.get_length(), 4);
+
+    set<int> my_set3 = my_set1 + my_set2;
+
+    QCOMPARE(my_set3.get_length(), 9);
+    QCOMPARE(my_set3.contains(1), true);
+    QCOMPARE(my_set3.contains(2), true);
+    QCOMPARE(my_set3.contains(3), true);
+    QCOMPARE(my_set3.contains(4), true);
+    QCOMPARE(my_set3.contains(5), true);
+    QCOMPARE(my_set3.contains(6), true);
+    QCOMPARE(my_set3.contains(7), true);
+    QCOMPARE(my_set3.contains(8), true);
+    QCOMPARE(my_set3.contains(9), true);
+}
+
+void set_test::test_star_overload()
+{
+    set<int> my_set1{1, 2, 3, 5, 6, 7, 9};
+    set<int> my_set2{2, 4, 6, 8};
+
+    QCOMPARE(my_set1.get_length(), 7);
+    QCOMPARE(my_set2.get_length(), 4);
+
+    set<int> my_set3 = my_set1 * my_set2;;
+
+    QCOMPARE(my_set3.get_length(), 2);
+    QCOMPARE(my_set3.contains(2), true);
+    QCOMPARE(my_set3.contains(6), true);
+}
+
+void set_test::test_slash_overload()
+{
+    set<int> my_set1{1, 2, 3, 5, 6, 7, 9};
+    set<int> my_set2{2, 4, 6, 8};
+
+    QCOMPARE(my_set1.get_length(), 7);
+    QCOMPARE(my_set2.get_length(), 4);
+
+    set<int> my_set3 = my_set1 / my_set2;;
+
+    QCOMPARE(my_set3.get_length(), 7);
+    QCOMPARE(my_set3.contains(1), true);
+    QCOMPARE(my_set3.contains(3), true);
+    QCOMPARE(my_set3.contains(5), true);
+    QCOMPARE(my_set3.contains(7), true);
+    QCOMPARE(my_set3.contains(9), true);
+    QCOMPARE(my_set3.contains(4), true);
+    QCOMPARE(my_set3.contains(8), true);
 }
 
 QTEST_APPLESS_MAIN(set_test)

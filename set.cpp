@@ -157,21 +157,43 @@ void set<T>::clear()
 
 /* Операции множества */
 template <class T>
-set<T>& set<T>::set_union(const set<T>& s) const
+set<T> set<T>::set_union(const set<T>& s) const
 {
+    set<T> s_union(*this);
 
+    for(Iterator<T> iterator = s.iterator_begin(); !iterator.is_end(); ++iterator)
+        if (!s_union.contains(iterator.value()))
+            s_union.add(iterator.value());
+
+    return s_union;
 }
 
 template <class T>
-set<T>& set<T>::set_intersection(const set<T>& s) const
+set<T> set<T>::set_intersection(const set<T>& s) const
 {
+    set<T> s_intersection;
 
+    for(Iterator<T> iterator = s.iterator_begin(); !iterator.is_end(); ++iterator)
+        if (this->contains(iterator.value()))
+            s_intersection.add(iterator.value());
+
+    return s_intersection;
 }
 
 template <class T>
-set<T>& set<T>::set_substract(const set<T>& s) const
+set<T> set<T>::set_substract(const set<T>& s) const
 {
+    set<T> s_substract;
 
+    for(Iterator<T> iterator = this->iterator_begin(); !iterator.is_end(); ++iterator)
+        if (!s.contains(iterator.value()))
+            s_substract.add(iterator.value());
+
+    for(Iterator<T> iterator = s.iterator_begin(); !iterator.is_end(); ++iterator)
+        if (!this->contains(iterator.value()))
+            s_substract.add(iterator.value());
+
+    return s_substract;
 }
 
 /* Перегрузка операций */
@@ -190,19 +212,22 @@ set<T>& set<T>::operator= (const set<T>& s)
 template <class T>
 set<T>& set<T>::operator+= (const set<T>& s)
 {
-
+    *this = this->set_union(s);
+    return *this;
 }
 
 template <class T>
 set<T>& set<T>::operator*= (const set<T>& s)
 {
-
+    *this = this->set_intersection(s);
+    return *this;
 }
 
 template <class T>
 set<T>& set<T>::operator/= (const set<T>& s)
 {
-
+    *this = this->set_substract(s);
+    return *this;
 }
 
 template <class _T>
@@ -223,19 +248,19 @@ std::ostream& operator<< (std::ostream& os, const set<_T>& lst)
 template <class _T>
 set<_T> operator+ (const set<_T>& s1, const set<_T>& s2)
 {
-
+    return s1.set_union(s2);
 }
 
 template <class _T>
 set<_T> operator* (const set<_T>& s1, const set<_T>& s2)
 {
-
+    return s1.set_intersection(s2);
 }
 
 template <class _T>
 set<_T> operator/ (const set<_T>& s1, const set<_T>& s2)
 {
-
+    return s1.set_substract(s2);
 }
 
 /* Деструктор */

@@ -38,9 +38,9 @@ public:
     void clear();                                                               // Очистить множество
 
     /* Операции множества                                                       */
-    set<T>& set_union(const set<T>& s) const;                                   // Объединение множеств
-    set<T>& set_intersection(const set<T>& s) const;                            // Пересечение множеств
-    set<T>& set_substract(const set<T>& s) const;                               // Разность множеств
+    set<T> set_union(const set<T>& s) const;                                    // Объединение множеств
+    set<T> set_intersection(const set<T>& s) const;                             // Пересечение множеств
+    set<T> set_substract(const set<T>& s) const;                                // Разность множеств
 
     /* Перегрузка операций                                                      */
     set<T>& operator= (const set<T>& lst);                                      // (перегрузка =)

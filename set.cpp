@@ -4,10 +4,7 @@
 
 
 template <class T>
-Iterator<T>::Iterator(const set<T>& container_obj)
-{
-
-}
+Iterator<T>::Iterator(const set<T>& container_obj) : cur_node(container_obj.get_first()) {}
 
 /* Конструкторы */
 template <class T>

@@ -32,6 +32,7 @@ public:
     /* Деструктор                               */
     ~Iterator();                                // Деструктор
 private:
+    /* Свойства                                 */
     node<T>* cur_node;
 };
 

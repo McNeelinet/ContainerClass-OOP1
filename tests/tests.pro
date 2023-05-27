@@ -15,13 +15,13 @@ SUBDIRS += \
     method_iterator_begin \
     method_iterator_end \
     method_move_constructor \
+    method_plus \
     method_plus_equal_overload \
-    method_plus_overload \
     method_remove \
     method_set_intersection \
     method_set_substract \
     method_set_union \
+    method_slash \
     method_slash_equal_overload \
-    method_slash_overload \
-    method_star_equal_overload \
-    method_star_overload
+    method_star \
+    method_star_equal_overload

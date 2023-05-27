@@ -164,43 +164,27 @@ void set<T>::clear()
 
 /* Операции множества */
 template <class T>
-set<T> set<T>::set_union(const set<T>& s) const
+set<T>& set<T>::set_union(const set<T>& s)
 {
-    set<T> s_union(*this);
+    *this = *this + s;
 
-    for(Iterator<T> iterator = s.iterator_begin(); !iterator.is_end(); ++iterator)
-        if (!s_union.contains(iterator.value()))
-            s_union.add(iterator.value());
-
-    return s_union;
+    return *this;
 }
 
 template <class T>
-set<T> set<T>::set_intersection(const set<T>& s) const
+set<T>& set<T>::set_intersection(const set<T>& s)
 {
-    set<T> s_intersection;
+    *this = *this * s;
 
-    for(Iterator<T> iterator = s.iterator_begin(); !iterator.is_end(); ++iterator)
-        if (this->contains(iterator.value()))
-            s_intersection.add(iterator.value());
-
-    return s_intersection;
+    return *this;
 }
 
 template <class T>
-set<T> set<T>::set_substract(const set<T>& s) const
+set<T>& set<T>::set_substract(const set<T>& s)
 {
-    set<T> s_substract;
+    *this = *this / s;
 
-    for(Iterator<T> iterator = this->iterator_begin(); !iterator.is_end(); ++iterator)
-        if (!s.contains(iterator.value()))
-            s_substract.add(iterator.value());
-
-    for(Iterator<T> iterator = s.iterator_begin(); !iterator.is_end(); ++iterator)
-        if (!this->contains(iterator.value()))
-            s_substract.add(iterator.value());
-
-    return s_substract;
+    return *this;
 }
 
 /* Перегрузка операций */
@@ -219,24 +203,25 @@ set<T>& set<T>::operator= (const set<T>& s)
 template <class T>
 set<T>& set<T>::operator+= (const set<T>& s)
 {
-    *this = this->set_union(s);
+    this->set_union(s);
     return *this;
 }
 
 template <class T>
 set<T>& set<T>::operator*= (const set<T>& s)
 {
-    *this = this->set_intersection(s);
+    this->set_intersection(s);
     return *this;
 }
 
 template <class T>
 set<T>& set<T>::operator/= (const set<T>& s)
 {
-    *this = this->set_substract(s);
+    this->set_substract(s);
     return *this;
 }
 
+/*   Функции  друзья   */
 template <class _T>
 std::ostream& operator<< (std::ostream& os, const set<_T>& lst)
 {
@@ -255,19 +240,41 @@ std::ostream& operator<< (std::ostream& os, const set<_T>& lst)
 template <class _T>
 set<_T> operator+ (const set<_T>& s1, const set<_T>& s2)
 {
-    return s1.set_union(s2);
+    set<_T> s_union(s1);
+
+    for (Iterator<_T> iterator = s2.iterator_begin(); !iterator.is_end(); ++iterator)
+        if (!s1.contains(iterator.value()))
+            s_union.add(iterator.value());
+
+    return s_union;
 }
 
 template <class _T>
 set<_T> operator* (const set<_T>& s1, const set<_T>& s2)
 {
-    return s1.set_intersection(s2);
+    set<_T> s_intersection;
+
+    for (Iterator<_T> iterator = s2.iterator_begin(); !iterator.is_end(); ++iterator)
+        if (s1.contains(iterator.value()))
+            s_intersection.add(iterator.value());
+
+    return s_intersection;
 }
 
 template <class _T>
 set<_T> operator/ (const set<_T>& s1, const set<_T>& s2)
 {
-    return s1.set_substract(s2);
+    set<_T> s_substract;
+
+    for (Iterator<_T> iterator = s1.iterator_begin(); !iterator.is_end(); ++iterator)
+        if (!s2.contains(iterator.value()))
+            s_substract.add(iterator.value());
+
+    for (Iterator<_T> iterator = s2.iterator_begin(); !iterator.is_end(); ++iterator)
+        if (!s1.contains(iterator.value()))
+            s_substract.add(iterator.value());
+
+    return s_substract;
 }
 
 /* Деструктор */

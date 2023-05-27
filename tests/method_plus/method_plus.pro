@@ -6,7 +6,7 @@ CONFIG -= app_bundle
 
 TEMPLATE = app
 
-SOURCES +=  tst_method_set_intersection.cpp
+SOURCES +=  tst_method_plus.cpp
 
 
 SOURCES += ../../set/Iterator.cpp \

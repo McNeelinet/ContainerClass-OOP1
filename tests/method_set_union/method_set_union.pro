@@ -7,3 +7,10 @@ CONFIG -= app_bundle
 TEMPLATE = app
 
 SOURCES +=  tst_method_set_union.cpp
+
+
+SOURCES += ../../set/Iterator.cpp \
+        ../../set/set.cpp
+
+HEADERS += ../../set/Iterator.h \
+        ../../set/set.h

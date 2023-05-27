@@ -38,9 +38,9 @@ public:
     void clear();                                                               // Очистить множество
 
     /* Операции множества                                                       */
-    set<T> set_union(const set<T>& s) const;                                    // Объединение множеств
-    set<T> set_intersection(const set<T>& s) const;                             // Пересечение множеств
-    set<T> set_substract(const set<T>& s) const;                                // Разность множеств
+    set<T>& set_union(const set<T>& s);                                          // Объединение множеств
+    set<T>& set_intersection(const set<T>& s);                                   // Пересечение множеств
+    set<T>& set_substract(const set<T>& s);                                      // Разность множеств
 
     /* Перегрузка операций                                                      */
     set<T>& operator= (const set<T>& lst);                                      // (перегрузка =)
@@ -48,6 +48,7 @@ public:
     set<T>& operator*= (const set<T>& s);                                       // Пересечение множеств (перегрузка *=)
     set<T>& operator/= (const set<T>& s);                                       // Разность множеств (перегрузка /=)
 
+    /* Функции друзья                                                           */
     template <typename _T>
     friend std::ostream& operator<< (std::ostream& os, const set<_T>& lst);     // Вывод класса в поток (перегрузка <<)
     template <typename _T>

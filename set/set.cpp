@@ -81,7 +81,7 @@ Iterator<T> set<T>::iterator_begin() const
 template <class T>
 Iterator<T> set<T>::iterator_end() const
 {
-    Iterator<T> iterator;
+    Iterator<T> iterator(*this);
 
     for (iterator = this->iterator_begin(); !iterator.is_end(); ++iterator);
 

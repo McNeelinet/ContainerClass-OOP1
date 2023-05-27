@@ -20,6 +20,12 @@ T Iterator<T>::value()
     return this->cur_node->content;
 }
 
+template <typename T>
+node<T>* Iterator<T>::get_object()
+{
+    return this->cur_node;
+}
+
 /* Перемещение */
 template <typename T>
 Iterator<T> Iterator<T>::next()

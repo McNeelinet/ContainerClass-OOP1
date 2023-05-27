@@ -27,8 +27,13 @@ set<T>::set(set<T>&& s) : first(s.get_first()), last(s.get_last())
 template <class T>
 set<T>::set(std::initializer_list<T> lst) : first(nullptr), last(nullptr)
 {
-    for (const T& value : lst)
-        this->add(value);
+    try {
+        for (const T& value : lst)
+            this->add(value);
+    } catch (std::invalid_argument& e) {
+        this->clear();
+        throw e;
+    }
 }
 
 /* Полезное */
@@ -134,6 +139,8 @@ void set<T>::remove(const T& elem)
         }
         else {
             this->first = current->next;
+            if (this->first == nullptr)
+                this->last = nullptr;
             delete current;
         }
     }

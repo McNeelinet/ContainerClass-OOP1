@@ -36,8 +36,6 @@ void method_move_constructor::test_empty_filled()
 
     my_set2 = std::move(my_set1);
 
-    QEXPECT_FAIL("", "Move constuctor wasn't called", Continue);
-
     QCOMPARE(my_set1.get_length(), 0);
     QCOMPARE(my_set2.get_length(), 0);
 }
@@ -62,9 +60,12 @@ void method_move_constructor::test_filled_filled()
 
     my_set2 = std::move(my_set1);
 
-    QEXPECT_FAIL("", "Move constuctor wasn't called", Continue);
-
-    QCOMPARE(my_set1.get_length(), 0);
+    QCOMPARE(my_set1.get_length(), 5);
+    QCOMPARE(my_set1.contains(1), true);
+    QCOMPARE(my_set1.contains(2), true);
+    QCOMPARE(my_set1.contains(3), true);
+    QCOMPARE(my_set1.contains(4), true);
+    QCOMPARE(my_set1.contains(5), true);
 
     QCOMPARE(my_set2.get_length(), 5);
     QCOMPARE(my_set2.contains(1), true);

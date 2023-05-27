@@ -1,4 +1,5 @@
 #include <QtTest>
+#include <stdexcept>
 
 #include "../../set/Iterator.h"
 #include "../../set/set.h"
@@ -14,9 +15,17 @@ public:
     ~method_init_list_constructor();
 
 private slots:
-    void test_with_values();
     void test_without_values();
+    void test_with_values();
+    void test_with_doubled_values();
 };
+
+void method_init_list_constructor::test_without_values()
+{
+    set<int> my_set{};
+
+    QCOMPARE(my_set.get_length(), 0);
+}
 
 void method_init_list_constructor::test_with_values()
 {
@@ -28,11 +37,18 @@ void method_init_list_constructor::test_with_values()
     QCOMPARE(my_set.contains(3), true);
 }
 
-void method_init_list_constructor::test_without_values()
+void method_init_list_constructor::test_with_doubled_values()
 {
-    set<int> my_set{};
+    std::string error_text = "";
 
-    QCOMPARE(my_set.get_length(), 0);
+    try {
+        set<int> my_set{1, 1, 2, 2, 3, 3};
+    } catch (std::invalid_argument& e) {
+        error_text = e.what();
+    }
+
+    QEXPECT_FAIL("", "Constructor must fail in this case", Continue);
+    QCOMPARE(error_text, "");
 }
 
 method_init_list_constructor::method_init_list_constructor()

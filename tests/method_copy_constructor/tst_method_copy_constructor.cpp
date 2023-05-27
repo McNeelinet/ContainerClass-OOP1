@@ -36,8 +36,6 @@ void method_copy_constructor::test_empty_filled()
 
     my_set2 = my_set1;
 
-    QEXPECT_FAIL("", "Copy constuctor wasn't called", Continue);
-
     QCOMPARE(my_set1.get_length(), 0);
     QCOMPARE(my_set2.get_length(), 0);
 }
@@ -64,8 +62,6 @@ void method_copy_constructor::test_filled_filled()
     set<int> my_set2{4, 5, 6};
 
     my_set2 = my_set1;
-
-    QEXPECT_FAIL("", "Copy constuctor wasn't called", Continue);
 
     QCOMPARE(my_set1.get_length(), 3);
     QCOMPARE(my_set1.contains(1), true);

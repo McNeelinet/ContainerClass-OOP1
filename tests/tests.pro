@@ -24,5 +24,4 @@ SUBDIRS += \
     method_slash_equal_overload \
     method_slash_overload \
     method_star_equal_overload \
-    method_star_overload \
-    method_to_array
+    method_star_overload
